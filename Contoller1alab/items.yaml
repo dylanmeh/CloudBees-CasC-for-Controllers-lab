@@ -1,0 +1,37 @@
+removeStrategy:
+  rbac: SYNC
+  items: NONE
+items:
+- concurrentBuild: true
+  kind: pipeline
+  displayName: Hello-World-Pipeline
+  resumeBlocked: false
+  name: Hello-World-Pipeline
+  description: ''
+  definition:
+    cpsFlowDefinition:
+      sandbox: true
+      script: "pipeline {\n    agent any\n    stages {\n        stage('Echo') {\n\
+        \            steps {\n            sh '''echo \\'HELLO WORLD\\'\n         \
+        \   '''\n            }\n        }\n    \n        stage('Email') {\n      \
+        \      steps {\n            emailext body: '1234', subject: 'TEST', to: 'bhconcanon@gmail.com'\n\
+        \            }\n        }\n    }\n}"
+  disabled: false
+  properties:
+  - durabilityHint:
+      hint: MAX_SURVIVABILITY
+- concurrentBuild: false
+  builders:
+  - shell:
+      command: echo "Hello World!"
+  blockBuildWhenUpstreamBuilding: false
+  blockBuildWhenDownstreamBuilding: false
+  kind: freeStyle
+  displayName: Hello_World
+  name: Hello_World
+  description: ''
+  disabled: false
+  scm:
+    none: {}
+  scmCheckoutStrategy:
+    standard: {}
