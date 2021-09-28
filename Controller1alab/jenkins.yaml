@@ -30,12 +30,6 @@ jenkins:
   scmCheckoutRetryCount: 0
   securityRealm: "operationsCenter"
   slaveAgentPort: 50000
-  updateCenter:
-    sites:
-    - id: "core-mm-offline"
-      url: "file:/tmp/jenkins/war/WEB-INF/plugins/update-center.json"
-    - id: "cap-core-mm"
-      url: "https://jenkins-updates.cloudbees.com/update-center/envelope-core-mm/update-center.json"
   views:
   - all:
       name: "all"
@@ -65,34 +59,6 @@ beekeeper:
 notificationConfiguration:
   enabled: true
   router: "operationsCenter"
-  key: |
-    -----BEGIN RSA PRIVATE KEY-----
-    MIIEowIBAAKCAQEAkcmCEhgpVFoyfuyvqtYUk7d+Q3SnqdL1cThdFtp5QPklBTaf
-    1CTgwFJLOsq7Z/Ie1N3Gg5qC1zKfIpFd3njOuuTVcnabVWk1cLkmnQDJJohwuNcT
-    ZArC+68nN7QIGLq1UulT0i+7nJ7+toKKP0mWiRlJRjtMemtyHSg9KW2oKSlCT5zp
-    kfCr+w11DiPV23GwbCRPVXhmcLCwlu4Xc6QvFQj6z98+HAIODaCaXTOpd/8o5wrK
-    do4+L6+XfaFUPYoBJJzyiu+ucrSJ5+R3OWnRcKvduwtpA5hQAgztR89LvZubFXlk
-    UiEo3013D9T/tfdAz4Kq+WYCcvWutifSc54AcQIDAQABAoIBABF07yHKidxjZouD
-    PO+4bcNYZAKgy9jOfXxesurjI0TP8IpkxZOqDM2KrR5vmywxtlZn7fbhQAyTr7F8
-    daCHl72SXCq2IBiEnhUO3pxLNUrraJABlP1UOo/Xo9sMMDIB3Wd9r/9Jnu38reRd
-    0j8MyT1GbVs/C4PXLNVn9Zbp3gp7i3wAlGyIq0HAGmMHjGlJTS+I64exGi004U8y
-    CtsXKAH3GzHJ+yTj1jJ6JFCYk4GRbebrB15DwqomqYNF/T/Jyzt2BB4WfN1YmZD5
-    ZyqeHqEiSgVKxLU0LA+HVMvsjg9P2QW9i8xBQTAkm8AtvGSUqLrI9jW04svvSpUQ
-    C1UikkkCgYEAyLD9Lxie1R332BgKg0dwNC1J4kYzLfdsudOCeDqPyaJSdfqLGj3N
-    pW13p2q8R1pon2hMx7kva14sqG2yG0kLRirovC6Neuq8wZhoIV7dikznEae5UGPR
-    5z2QLeZqhu+az1KiTg3gl4tX/gbBKTmDcySdOZYSZcy6YzyUq7pJMu0CgYEAufb2
-    OkhZ64g9U2UMRphSPdyPZMUiBqI8l0KqsdRToWtejIC8Bs5eEF+OwJZpONgfNRMf
-    /1ZlNBEpj5izlshjjkJDXuw56jPesvkvgZ2AzaGgYtndOnhfKzQbQ0t+LoUpWa35
-    7QXUHkH5fR7BUYqwqme4vB6B96uP+wi/fN9WvxUCgYEAsUfHH2c8Rz4lxXnXL4hX
-    kX/AGGWyqBQ8sxon0lTI13DQLu+XGSMnGc7NN9KNZupyKP5VdMgdH1cdU9syze+E
-    SgN1e2YUDFR3UPx0X6YRRS4RoALtLBpBPWegiStVRsU5l5KDVTflAXlRzU/iKaxo
-    dboOOORcdBiZPTgyjFAOgTECgYA+dRZvrrscow5NwwNjdmcwxbIXWyo5ZiXJe6eO
-    wEwyS7heoiIEey0WfLGaNyox4Exi7AB0JpUo7pax1syCWN0u+0xbRiWRZkhmfdCZ
-    zMdkyOLwMFHgAGuePAroCCPiBfFEYG0vUSTT4L6laj3tYBJDuUBPVkO6ZhGec2q0
-    yuH8nQKBgEy3dJhVlsFxliz27FPhWXZoR2gtTViMCVnx0p842/w0J5GQ4/BHShuV
-    E0OLtb4pAQp7QGThH7HHDEs+NgpUCMMQxnP9brto4+5mgdaoxc/QFrek5gu8aiui
-    Ru2OzDvh7kxW1djwF/iPxH4qCBE9gtar0XIh5h/nPmqs0yMN/H+r
-    -----END RSA PRIVATE KEY-----
 security:
   anonymizeSupportBundle:
     enabled: false
