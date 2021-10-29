@@ -35,3 +35,396 @@ items:
     none: {}
   scmCheckoutStrategy:
     standard: {}
+- orphanedItemStrategy:
+    defaultOrphanedItemStrategy:
+      pruneDeadBranches: true
+      daysToKeep: -1
+      numToKeep: -1
+  kind: multibranch
+  displayName: java-app
+  projectFactory:
+    customBranchProjectFactory:
+      marker: pom.xml
+      definition:
+        cpsScmFlowDefinition:
+          scriptPath: Jenkinsfile
+          scm:
+            gitSCM:
+              userRemoteConfigs:
+              - userRemoteConfig:
+                  url: https://github.com/dylanmeh/Repo_2.git
+              branches:
+              - branchSpec:
+                  name: '*/develop'
+              - branchSpec:
+                  name: '*/test'
+              - branchSpec:
+                  name: '*/main'
+          lightweight: true
+  name: java-app
+  description: Simple Java application
+  sourcesList:
+  - branchSource:
+      source:
+        github:
+          traits:
+          - gitHubBranchDiscovery:
+              strategyId: 3
+          repoOwner: dylanmeh
+          id: ff405256-5243-454e-93ff-5dfedae701e6
+          repository: Lab2_Repo_1
+          configuredByUrl: true
+          repositoryUrl: https://github.com/dylanmeh/Lab2_Repo_1.git
+      strategy:
+        allBranchesSame: {}
+  properties:
+  - {}
+- concurrentBuild: true
+  kind: pipeline
+  displayName: Lab1-HelloWorld
+  resumeBlocked: false
+  name: Lab1-HelloWorld
+  description: ''
+  definition:
+    cpsScmFlowDefinition:
+      scriptPath: Jenkinsfile
+      scm:
+        gitSCM:
+          userRemoteConfigs:
+          - userRemoteConfig:
+              url: https://github.com/bhconcanon/Lab1
+          branches:
+          - branchSpec:
+              name: '*/main'
+      lightweight: true
+  disabled: false
+- orphanedItemStrategy:
+    defaultOrphanedItemStrategy:
+      pruneDeadBranches: true
+      daysToKeep: -1
+      numToKeep: -1
+  kind: multibranch
+  displayName: Lab2-JavaApp
+  projectFactory:
+    customBranchProjectFactory:
+      marker: pom.xml
+      definition:
+        cpsScmFlowDefinition:
+          scriptPath: Jenkinsfile
+          scm:
+            gitSCM:
+              userRemoteConfigs:
+              - userRemoteConfig:
+                  url: https://github.com/bhconcanon/Lab2_Jenkinsfile
+              branches:
+              - branchSpec:
+                  name: '*/main'
+          lightweight: true
+  name: Lab2-JavaApp
+  sourcesList:
+  - branchSource:
+      source:
+        github:
+          traits:
+          - gitHubBranchDiscovery:
+              strategyId: 3
+          repoOwner: bhconcanon
+          id: 39e38b4f-32a3-4003-b3e7-0494ec67f2e7
+          repository: Lab2_Java-App
+          configuredByUrl: true
+          repositoryUrl: https://github.com/bhconcanon/Lab2_Java-App
+      strategy:
+        allBranchesSame: {}
+  properties:
+  - {}
+  - kubernetesFolderProperty: {}
+- orphanedItemStrategy:
+    defaultOrphanedItemStrategy:
+      pruneDeadBranches: true
+      daysToKeep: -1
+      numToKeep: -1
+  kind: multibranch
+  displayName: Lab3_Shared-Library
+  projectFactory:
+    customBranchProjectFactory:
+      marker: pom.xml
+      definition:
+        cpsScmFlowDefinition:
+          scriptPath: Jenkinsfile
+          scm:
+            gitSCM:
+              userRemoteConfigs:
+              - userRemoteConfig:
+                  url: https://github.com/bhconcanon/Lab3_Jenkinsfile
+              branches:
+              - branchSpec:
+                  name: '*/main'
+          lightweight: true
+  name: Lab3_Shared-Library
+  sourcesList:
+  - branchSource:
+      source:
+        github:
+          traits:
+          - gitHubBranchDiscovery:
+              strategyId: 3
+          repoOwner: bhconcanon
+          id: 39e38b4f-32a3-4003-b3e7-0494ec67f2e7
+          repository: Lab2_Java-App
+          configuredByUrl: true
+          repositoryUrl: https://github.com/bhconcanon/Lab2_Java-App
+      strategy:
+        allBranchesSame: {}
+  properties:
+  - {}
+- orphanedItemStrategy:
+    defaultOrphanedItemStrategy:
+      pruneDeadBranches: true
+      daysToKeep: -1
+      numToKeep: -1
+  kind: multibranch
+  displayName: Lab4-Webhooks
+  projectFactory:
+    customBranchProjectFactory:
+      marker: pom.xml
+      definition:
+        cpsScmFlowDefinition:
+          scriptPath: Jenkinsfile
+          scm:
+            gitSCM:
+              userRemoteConfigs:
+              - userRemoteConfig:
+                  url: https://github.com/bhconcanon/Lab4_Jenkinsfile
+              branches:
+              - branchSpec:
+                  name: '*/main'
+          lightweight: true
+  name: Lab4-Webhooks
+  sourcesList:
+  - branchSource:
+      source:
+        github:
+          traits:
+          - gitHubBranchDiscovery:
+              strategyId: 3
+          repoOwner: bhconcanon
+          id: 39e38b4f-32a3-4003-b3e7-0494ec67f2e7
+          repository: Lab2_Java-App
+          configuredByUrl: true
+          repositoryUrl: https://github.com/bhconcanon/Lab2_Java-App
+      strategy:
+        allBranchesSame: {}
+  properties:
+  - {}
+  - kubernetesFolderProperty: {}
+- orphanedItemStrategy:
+    defaultOrphanedItemStrategy:
+      pruneDeadBranches: true
+      daysToKeep: -1
+      numToKeep: -1
+  kind: multibranch
+  displayName: pipeline-lab2
+  projectFactory:
+    workflowBranchProjectFactory:
+      scriptPath: Jenkinsfile
+  name: pipeline-lab2
+  description: Using Jenkins to build a simple Python application with PyInstaller.
+  sourcesList:
+  - branchSource:
+      source:
+        github:
+          traits:
+          - gitHubBranchDiscovery:
+              strategyId: 1
+          - gitHubPullRequestDiscovery:
+              strategyId: 1
+          - gitHubForkDiscovery:
+              trust:
+                gitHubTrustPermissions: {}
+              strategyId: 1
+          repoOwner: dylanmeh
+          id: a534a4d0-e5bd-47e1-a749-1800adc08df0
+          repository: simple-python-pyinstaller-app
+          configuredByUrl: true
+          repositoryUrl: https://github.com/dylanmeh/simple-python-pyinstaller-app.git
+      strategy:
+        allBranchesSame: {}
+  properties:
+  - {}
+  - kubernetesFolderProperty: {}
+- concurrentBuild: true
+  kind: pipeline
+  displayName: pipeline1
+  resumeBlocked: false
+  name: pipeline1
+  description: ''
+  definition:
+    cpsScmFlowDefinition:
+      scriptPath: Jenkinsfile
+      scm:
+        gitSCM:
+          userRemoteConfigs:
+          - userRemoteConfig:
+              credentialsId: d5cbe393-a332-4e70-8779-f6210ed20b3d
+              url: https://github.com/dylanmeh/Pipeline_Lab1.git
+          branches:
+          - branchSpec:
+              name: '*/main'
+      lightweight: true
+  disabled: false
+- concurrentBuild: true
+  kind: pipeline
+  displayName: shared-library
+  resumeBlocked: false
+  name: shared-library
+  disabled: false
+- orphanedItemStrategy:
+    defaultOrphanedItemStrategy:
+      pruneDeadBranches: true
+      daysToKeep: -1
+      numToKeep: -1
+  kind: multibranch
+  displayName: shared_lib_hello_world
+  projectFactory:
+    customBranchProjectFactory:
+      marker: var/helloWorld.groovy
+      definition:
+        cpsScmFlowDefinition:
+          scriptPath: Jenkinsfile
+          scm:
+            gitSCM:
+              userRemoteConfigs:
+              - userRemoteConfig:
+                  url: https://github.com/dylanmeh/hello_world_jenkinsfile.git
+              branches:
+              - branchSpec:
+                  name: '*/main'
+          lightweight: true
+  name: shared_lib_hello_world
+  sourcesList:
+  - branchSource:
+      source:
+        github:
+          traits:
+          - gitHubBranchDiscovery:
+              strategyId: 1
+          - gitHubPullRequestDiscovery:
+              strategyId: 1
+          - gitHubForkDiscovery:
+              trust:
+                gitHubTrustPermissions: {}
+              strategyId: 1
+          repoOwner: dylanmeh
+          id: 1c0aff9f-b331-45d3-b528-d924597302f4
+          repository: hello_world_Shared_Lib
+          configuredByUrl: true
+          repositoryUrl: https://github.com/dylanmeh/hello_world_Shared_Lib.git
+      strategy:
+        allBranchesSame: {}
+  properties:
+  - {}
+- concurrentBuild: true
+  kind: pipeline
+  displayName: shared_lib_pipeline
+  resumeBlocked: false
+  name: shared_lib_pipeline
+  description: ''
+  definition:
+    cpsScmFlowDefinition:
+      scriptPath: Jenkinsfile
+      scm:
+        gitSCM:
+          userRemoteConfigs:
+          - userRemoteConfig:
+              url: https://github.com/dylanmeh/hello_world_jenkinsfile.git
+          branches:
+          - branchSpec:
+              name: '*/main'
+      lightweight: true
+  disabled: false
+- concurrentBuild: true
+  kind: pipeline
+  displayName: Test
+  resumeBlocked: false
+  name: Test
+  description: ''
+  definition:
+    cpsFlowDefinition:
+      sandbox: true
+      script: |
+        // Uses Declarative syntax to run commands inside a container.
+        pipeline {
+            agent {
+                kubernetes {
+                    // Rather than inline YAML, in a multibranch Pipeline you could use: yamlFile 'jenkins-pod.yaml'
+                    // Or, to avoid YAML:
+                    // containerTemplate {
+                    //     name 'shell'
+                    //     image 'ubuntu'
+                    //     command 'sleep'
+                    //     args 'infinity'
+                    // }
+                    yaml '''
+        apiVersion: v1
+        kind: Pod
+        spec:
+          containers:
+          - name: shell
+            image: ubuntu
+            command:
+            - sleep
+            args:
+            - infinity
+        '''
+                    // Can also wrap individual steps:
+                    // container('shell') {
+                    //     sh 'hostname'
+                    // }
+                    defaultContainer 'shell'
+                }
+            }
+            stages {
+                stage('Main') {
+                    steps {
+                        sh 'hostname'
+                    }
+                }
+            }
+        }
+  disabled: false
+- concurrentBuild: true
+  kind: pipeline
+  displayName: webhook_pipeline1
+  resumeBlocked: false
+  name: webhook_pipeline1
+  description: ''
+  definition:
+    cpsFlowDefinition:
+      sandbox: true
+      script: "pipeline {\n\tagent none\n\ttriggers {\n    \t\teventTrigger jmespathQuery(\"\
+        source=='homemade'\")\n\t\t}\n\tstages {\n    \tstage('First stage') {\n \
+        \       \tsteps {\n            \tscript {\n                \techo \"Build\
+        \ triggered by:\" + currentBuild.getBuildCauses()[0].toString()\n        \
+        \        \tdef cause = currentBuild.getBuildCauses()[0];\n               //\
+        \ We check that the job is triggered by event, to avoid NullPointerException\
+        \ when using the json content.\n                \tif ( cause._class.contains(\"\
+        EventTriggerCause\") ) {\n                    \techo \"Job triggered by event\"\
+        \n                    \t//The json payload is enclosed in an event field\n\
+        \                  \t  def eventContent = cause.event\n                  \
+        \  \techo eventContent.fact.toString()\n                    \t//You can now\
+        \ use any json field send by the cURL command\n                    \tdef fact\
+        \ = eventContent.fact.content\n                    \techo \"Fact is:\" + fact.toString()\n\
+        \                \t}\n                \telse if ( cause._class.contains(\"\
+        UserIdCause\") ) {\n                    \t// The job can still be run manually,\
+        \ you may want to have different behavior.\n                    \techo \"\
+        Job triggered by user\"\n                \t}\n                \telse {\n \
+        \                   \techo \"Job triggered by something else\"\n         \
+        \       \t}\n            \t}\n          }\n    \t}\n  }\n}"
+  disabled: false
+  properties:
+  - pipelineTriggers:
+      triggers:
+      - eventTrigger:
+          condition:
+            jmespathQuery:
+              query: source=='homemade'
