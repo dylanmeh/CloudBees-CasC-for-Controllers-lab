@@ -78,7 +78,6 @@ items:
       strategy:
         allBranchesSame: {}
   properties:
-  - {}
 - concurrentBuild: true
   kind: pipeline
   displayName: Lab1-HelloWorld
@@ -136,7 +135,6 @@ items:
       strategy:
         allBranchesSame: {}
   properties:
-  - {}
   - kubernetesFolderProperty: {}
 - orphanedItemStrategy:
     defaultOrphanedItemStrategy:
@@ -176,7 +174,6 @@ items:
       strategy:
         allBranchesSame: {}
   properties:
-  - {}
 - orphanedItemStrategy:
     defaultOrphanedItemStrategy:
       pruneDeadBranches: true
@@ -215,7 +212,6 @@ items:
       strategy:
         allBranchesSame: {}
   properties:
-  - {}
   - kubernetesFolderProperty: {}
 - orphanedItemStrategy:
     defaultOrphanedItemStrategy:
@@ -250,7 +246,6 @@ items:
       strategy:
         allBranchesSame: {}
   properties:
-  - {}
   - kubernetesFolderProperty: {}
 - concurrentBuild: true
   kind: pipeline
@@ -322,7 +317,6 @@ items:
       strategy:
         allBranchesSame: {}
   properties:
-  - {}
 - concurrentBuild: true
   kind: pipeline
   displayName: shared_lib_pipeline
