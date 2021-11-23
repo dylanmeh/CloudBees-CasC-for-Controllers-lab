@@ -1,5 +1,6 @@
 plugins:
 - {id: ace-editor}
+- {id: active-directory}
 - {id: apache-httpcomponents-client-4-api}
 - {id: async-http-client}
 - {id: authentication-tokens}
