@@ -2,6 +2,135 @@ removeStrategy:
   rbac: SYNC
   items: NONE
 items:
+- concurrentBuild: false
+  blockBuildWhenUpstreamBuilding: false
+  blockBuildWhenDownstreamBuilding: false
+  kind: backupAndRestore
+  displayName: backup_controller1
+  buildersList:
+  - backupBuilder:
+      subjects:
+      - buildRecordSubject: {}
+      - jobConfigurationSubject: {}
+      - systemConfigurationSubject:
+          omitMasterKey: false
+      format:
+        tarGzFormat: {}
+      exclusive: false
+      store:
+        s3Store:
+          bucketName: cloudbees-backups
+          sse: true
+          bucketFolder: backups
+          credentialsId: Dylan-AWS-Creds
+          region: us-east-1
+      retentionPolicy:
+        noRetentionPolicy: {}
+      safeDelaySeconds: 0
+  name: backup_controller1
+  description: ''
+  disabled: false
+- concurrentBuild: true
+  kind: pipeline
+  displayName: casc_test_11_23
+  resumeBlocked: false
+  name: casc_test_11_23
+  description: ''
+  definition:
+    cpsFlowDefinition:
+      sandbox: true
+      script: |
+        // Uses Declarative syntax to run commands inside a container.
+        pipeline {
+            agent {
+                kubernetes {
+                    // Rather than inline YAML, in a multibranch Pipeline you could use: yamlFile 'jenkins-pod.yaml'
+                    // Or, to avoid YAML:
+                    // containerTemplate {
+                    //     name 'shell'
+                    //     image 'ubuntu'
+                    //     command 'sleep'
+                    //     args 'infinity'
+                    // }
+                    yaml '''
+        apiVersion: v1
+        kind: Pod
+        spec:
+          containers:
+          - name: shell
+            image: ubuntu
+            command:
+            - sleep
+            args:
+            - infinity
+        '''
+                    // Can also wrap individual steps:
+                    // container('shell') {
+                    //     sh 'hostname'
+                    // }
+                    defaultContainer 'shell'
+                }
+            }
+            stages {
+                stage('Main') {
+                    steps {
+                        sh 'echo hello world'
+                    }
+                }
+            }
+        }
+  disabled: false
+- kind: folder
+  displayName: FirstHorizon
+  name: FirstHorizon
+  description: ''
+  items:
+  - concurrentBuild: true
+    kind: pipeline
+    displayName: HelloWorld-FH
+    resumeBlocked: false
+    name: HelloWorld-FH
+    description: ''
+    definition:
+      cpsFlowDefinition:
+        sandbox: true
+        script: |
+          pipeline {
+              agent {
+                  kubernetes {
+                      yaml '''
+          apiVersion: v1
+          kind: Pod
+          spec:
+            containers:
+            - name: shell
+              image: ubuntu:latest
+              command:
+              - sleep
+              args:
+              - infinity
+          '''
+                      // Can also wrap individual steps:
+                      // container('shell') {
+                      //     sh 'hostname'
+                      // }
+                      defaultContainer 'shell'
+                  }
+              }
+              stages {
+                  stage('Main') {
+                      steps {
+                          sh 'echo "Hello First Horizon"'
+                      }
+                  }
+              }
+          }
+    disabled: false
+  properties:
+  - envVars: {}
+  - kubernetesFolderProperty: {}
+  - itemRestrictions:
+      filter: false
 - concurrentBuild: true
   kind: pipeline
   displayName: Hello-World-Pipeline
@@ -67,6 +196,7 @@ items:
   - branchSource:
       source:
         github:
+          apiUri: https://api.github.com
           traits:
           - gitHubBranchDiscovery:
               strategyId: 3
@@ -78,6 +208,27 @@ items:
       strategy:
         allBranchesSame: {}
   properties:
+  - envVars: {}
+- concurrentBuild: true
+  kind: pipeline
+  displayName: k8_Pod_BuildAgent_Test
+  resumeBlocked: false
+  name: k8_Pod_BuildAgent_Test
+  description: ''
+  definition:
+    cpsScmFlowDefinition:
+      scriptPath: Jenkinsfile
+      scm:
+        gitSCM:
+          userRemoteConfigs:
+          - userRemoteConfig:
+              credentialsId: d5cbe393-a332-4e70-8779-f6210ed20b3d
+              url: https://github.com/dylanmeh/Test_K8s_BuildAgent_Pod.git
+          branches:
+          - branchSpec:
+              name: '*/master'
+      lightweight: true
+  disabled: false
 - concurrentBuild: true
   kind: pipeline
   displayName: Lab1-HelloWorld
@@ -124,6 +275,7 @@ items:
   - branchSource:
       source:
         github:
+          apiUri: https://api.github.com
           traits:
           - gitHubBranchDiscovery:
               strategyId: 3
@@ -135,7 +287,54 @@ items:
       strategy:
         allBranchesSame: {}
   properties:
+  - envVars: {}
   - kubernetesFolderProperty: {}
+- orphanedItemStrategy:
+    defaultOrphanedItemStrategy:
+      pruneDeadBranches: true
+      daysToKeep: -1
+      numToKeep: -1
+  kind: multibranch
+  displayName: lab2_markerfiles
+  projectFactory:
+    customBranchProjectFactory:
+      marker: pom.xml
+      definition:
+        cpsScmFlowDefinition:
+          scriptPath: Jenkinsfile
+          scm:
+            gitSCM:
+              userRemoteConfigs:
+              - userRemoteConfig:
+                  url: https://github.com/dylanmeh/Lab2_Declarative_Pipeline.git
+              branches:
+              - branchSpec:
+                  name: '*/main'
+          lightweight: true
+  name: lab2_markerfiles
+  sourcesList:
+  - branchSource:
+      source:
+        github:
+          apiUri: https://api.github.com
+          traits:
+          - gitHubBranchDiscovery:
+              strategyId: 1
+          - gitHubPullRequestDiscovery:
+              strategyId: 1
+          - gitHubForkDiscovery:
+              trust:
+                gitHubTrustPermissions: {}
+              strategyId: 1
+          repoOwner: dylanmeh
+          id: 48b76ac9-9527-45d9-b9da-74c45a44718d
+          repository: Lab2_Java-App
+          configuredByUrl: true
+          repositoryUrl: https://github.com/dylanmeh/Lab2_Java-App.git
+      strategy:
+        allBranchesSame: {}
+  properties:
+  - envVars: {}
 - orphanedItemStrategy:
     defaultOrphanedItemStrategy:
       pruneDeadBranches: true
@@ -163,6 +362,7 @@ items:
   - branchSource:
       source:
         github:
+          apiUri: https://api.github.com
           traits:
           - gitHubBranchDiscovery:
               strategyId: 3
@@ -174,6 +374,7 @@ items:
       strategy:
         allBranchesSame: {}
   properties:
+  - envVars: {}
 - orphanedItemStrategy:
     defaultOrphanedItemStrategy:
       pruneDeadBranches: true
@@ -201,6 +402,7 @@ items:
   - branchSource:
       source:
         github:
+          apiUri: https://api.github.com
           traits:
           - gitHubBranchDiscovery:
               strategyId: 3
@@ -212,6 +414,7 @@ items:
       strategy:
         allBranchesSame: {}
   properties:
+  - envVars: {}
   - kubernetesFolderProperty: {}
 - orphanedItemStrategy:
     defaultOrphanedItemStrategy:
@@ -229,6 +432,7 @@ items:
   - branchSource:
       source:
         github:
+          apiUri: https://api.github.com
           traits:
           - gitHubBranchDiscovery:
               strategyId: 1
@@ -246,6 +450,7 @@ items:
       strategy:
         allBranchesSame: {}
   properties:
+  - envVars: {}
   - kubernetesFolderProperty: {}
 - concurrentBuild: true
   kind: pipeline
@@ -266,6 +471,32 @@ items:
           - branchSpec:
               name: '*/main'
       lightweight: true
+  disabled: false
+- concurrentBuild: true
+  kind: pipeline
+  displayName: pod_template_job
+  resumeBlocked: false
+  name: pod_template_job
+  description: ''
+  definition:
+    cpsFlowDefinition:
+      sandbox: true
+      script: "// Uses Declarative syntax to run commands inside a container.\npipeline\
+        \ {\n    agent {\n        kubernetes {\n            \n             containerTemplate\
+        \ {\n                 name 'shell'\n                 image 'ubuntu'\n    \
+        \             command 'sleep'\n                 args 'infinity'\n        \
+        \         \n                 name 'shell2'\n                 image 'ubuntu'\n\
+        \                 command 'sleep'\n                 args 'infinity'\n    \
+        \         }\n    \n            defaultContainer 'shell2'\n        }\n    }\n\
+        \    stages {\n        stage('Main') {\n            steps {\n            \
+        \    sh 'echo \"Hello World\"'\n            }\n        }\n    }\n}\n"
+  disabled: false
+- concurrentBuild: false
+  blockBuildWhenUpstreamBuilding: false
+  blockBuildWhenDownstreamBuilding: false
+  kind: backupAndRestore
+  displayName: restore_controller1
+  name: restore_controller1
   disabled: false
 - concurrentBuild: true
   kind: pipeline
@@ -300,6 +531,7 @@ items:
   - branchSource:
       source:
         github:
+          apiUri: https://api.github.com
           traits:
           - gitHubBranchDiscovery:
               strategyId: 1
@@ -317,6 +549,7 @@ items:
       strategy:
         allBranchesSame: {}
   properties:
+  - envVars: {}
 - concurrentBuild: true
   kind: pipeline
   displayName: shared_lib_pipeline
@@ -386,6 +619,61 @@ items:
             }
         }
   disabled: false
+- concurrentBuild: false
+  blockBuildWhenUpstreamBuilding: false
+  blockBuildWhenDownstreamBuilding: false
+  kind: backupAndRestore
+  displayName: test123
+  buildersList:
+  - backupBuilder:
+      subjects:
+      - buildRecordSubject: {}
+      - jobConfigurationSubject: {}
+      - systemConfigurationSubject:
+          omitMasterKey: false
+      format:
+        tarGzFormat: {}
+      exclusive: false
+      store:
+        s3Store:
+          bucketName: cloudbees-backups
+          sse: true
+          bucketFolder: backups
+          credentialsId: Dylan-AWS-Creds
+          region: us-east-1
+      retentionPolicy:
+        noRetentionPolicy: {}
+      safeDelaySeconds: 0
+  name: test123
+  description: ''
+  disabled: false
+- concurrentBuild: true
+  kind: pipeline
+  displayName: Test_webhook
+  resumeBlocked: false
+  name: Test_webhook
+  description: ''
+  definition:
+    cpsScmFlowDefinition:
+      scriptPath: Jenkinsfile
+      scm:
+        gitSCM:
+          userRemoteConfigs:
+          - userRemoteConfig:
+              url: https://github.com/dylanmeh/Using_Webhook2.git
+          branches:
+          - branchSpec:
+              name: '*/main'
+      lightweight: true
+  disabled: false
+  properties:
+  - pipelineTriggers:
+      triggers:
+      - githubPush: {}
+      - eventTrigger:
+          condition:
+            jmespathQuery:
+              query: repository.full_name=='dylanmeh/Using_Webhook2'
 - concurrentBuild: true
   kind: pipeline
   displayName: webhook_pipeline1
@@ -422,3 +710,14 @@ items:
           condition:
             jmespathQuery:
               query: source=='homemade'
+- concurrentBuild: true
+  kind: pipeline
+  displayName: webhook_test2
+  resumeBlocked: false
+  name: webhook_test2
+  description: ''
+  definition:
+    cpsFlowDefinition:
+      sandbox: true
+      script: ''
+  disabled: false
