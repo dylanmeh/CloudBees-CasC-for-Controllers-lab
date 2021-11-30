@@ -1,7 +1,7 @@
 apiVersion: "1"
 id: "Controller1a"
-description: "adding ant plugin"
-version: "9"
+description: "testing rbac.yaml in casc bundle"
+version: "10"
 jcasc:
   - "jenkins.yaml"
 plugins:
